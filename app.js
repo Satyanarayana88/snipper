@@ -95,7 +95,9 @@ snipBtn.addEventListener('click', async () => {
 
     await saveUrl(code, longUrl);
 
-    const shortUrl = `${window.location.origin}/redirect.html?code=${code}`;
+    // const shortUrl = `${window.location.origin}/redirect.html?code=${code}`;
+    // Replace it with this line:
+const shortUrl = `https://satyasnipper.in/redirect.html?code=${code}`;
     shortUrlSpan.textContent = shortUrl;
     resultBox.classList.remove('hidden');
 
