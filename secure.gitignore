@@ -1,0 +1,8 @@
+# Ignore private Firebase configuration
+firebase-config.js
+
+# Ignore local editor settings and logs
+.DS_Store
+Thumbs.db
+node_modules/
+.vscode/

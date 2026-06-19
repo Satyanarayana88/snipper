@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snip — URL Shortener</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="glass-card">
+      <h1 class="logo">Snip</h1>
+      
+      <!-- Tab Switcher -->
+      <div class="tab-switcher">
+        <button class="tab-btn active" data-tab="create">Create</button>
+        <button class="tab-btn" data-tab="my-urls">My URLs</button>
+      </div>
+
+      <!-- Create URL View -->
+      <div class="tab-content" id="create-view">
+        <div class="input-group">
+          <input 
+            type="url" 
+            id="long-url-input" 
+            placeholder="Enter your long URL here..."
+            class="url-input"
+            required
+          >
+        </div>
+        
+        <button id="snip-btn" class="snip-btn">Snip it</button>
+
+        <!-- Result Box (hidden by default) -->
+        <div id="result-box" class="result-box hidden">
+          <p class="result-label">Your short URL:</p>
+          <div class="result-url-container">
+            <span id="short-url" class="short-url"></span>
+            <button id="copy-btn" class="copy-btn" title="Copy to clipboard">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- My URLs View -->
+      <div class="tab-content hidden" id="my-urls-view">
+        <div id="urls-list" class="urls-list">
+          <p class="loading">Loading your URLs...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
