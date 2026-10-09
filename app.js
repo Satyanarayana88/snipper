@@ -42,7 +42,7 @@ function switchTab(tab) {
   }
 }
 
-// TODO (Live Session): Generate a random 6-character alphanumeric code
+// Generate a random 6-character alphanumeric code
 function generateCode() {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let code = '';
@@ -61,7 +61,13 @@ function isValidUrl(string) {
   }
 }
 
-// TODO (Live Session): Save URL to Firestore
+// FIX: build the short link relative to the current page (index.html),
+// so it keeps the folder (e.g. /snip/) and works locally and on GitHub Pages.
+function buildShortUrl(code) {
+  return new URL(`redirect.html?code=${code}`, window.location.href).href;
+}
+
+// Save URL to Firestore
 async function saveUrl(code, longUrl) {
   const urlsRef = collection(db, 'urls');
   await addDoc(urlsRef, {
@@ -95,9 +101,8 @@ snipBtn.addEventListener('click', async () => {
 
     await saveUrl(code, longUrl);
 
-    // const shortUrl = `${window.location.origin}/redirect.html?code=${code}`;
-    // Replace it with this line:
-const shortUrl = `https://satyasnipper.in/redirect.html?code=${code}`;
+    const shortUrl = buildShortUrl(code);
+    
     shortUrlSpan.textContent = shortUrl;
     resultBox.classList.remove('hidden');
 
@@ -161,11 +166,11 @@ function createUrlItem(code, longUrl) {
   const item = document.createElement('div');
   item.className = 'url-item';
 
-  const shortUrl = `${window.location.origin}/redirect.html?code=${code}`;
+  const shortUrl = buildShortUrl(code);
 
   item.innerHTML = `
     <div class="url-item-row">
-      <div class="url-item-short">${shortUrl}</div>
+      <div class="url-item-short"></div>
       <button class="url-item-copy-btn" title="Copy to clipboard">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -173,8 +178,13 @@ function createUrlItem(code, longUrl) {
         </svg>
       </button>
     </div>
-    <div class="url-item-long">${longUrl}</div>
+    <div class="url-item-long"></div>
   `;
+
+  // textContent (instead of putting values inside innerHTML) stops
+  // a saved URL containing HTML from being run as code.
+  item.querySelector('.url-item-short').textContent = shortUrl;
+  item.querySelector('.url-item-long').textContent = longUrl;
 
   const copyButton = item.querySelector('.url-item-copy-btn');
   copyButton.addEventListener('click', async () => {
